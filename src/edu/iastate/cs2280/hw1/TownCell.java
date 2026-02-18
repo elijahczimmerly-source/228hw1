@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  * 
- * @author <<Write your name here>>
+ * @author <<Elijah Zimmerly>>
  *	Also provide appropriate comments for this class
  *
  */
@@ -46,8 +46,15 @@ public abstract class TownCell {
 		nCensus[CASUAL] = 0; 
 		nCensus[OUTAGE] = 0; 
 		nCensus[STREAMER] = 0; 
-
-		//TODO: Write your code here.
+		
+		for(int i = row - 1; i <= row + 1; i++) {
+			for(int j = col - 1; j <= col + 1; j++) {
+				if (i == row && j == col) {
+					continue;
+				}
+				nCensus[plain.grid[i][j].who().ordinal()]++;
+			}
+		}
 
 	}
 
