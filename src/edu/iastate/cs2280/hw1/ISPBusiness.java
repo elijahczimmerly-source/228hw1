@@ -65,6 +65,70 @@ public class ISPBusiness {
 	 * 
 	 */
 	public static void main(String []args) {
-		//TODO: Write your code here.
+		Scanner scnr = new Scanner(System.in);
+		int userNum = 0;
+		while(!(userNum == 1 || userNum == 2)){
+			System.out.println("How to populate grid (type 1 or 2): 1: from a file. 2: randomly with seed");
+			try {
+				userNum = Integer.parseInt(scnr.nextLine());
+			}
+			catch (NumberFormatException e) {
+				
+			}
+			if (!(userNum == 1 || userNum == 2)) {
+				System.out.println("Invalid input, please enter 1 or 2");
+			}
+		}
+		
+		Town town = null;
+		
+		if (userNum == 1) {
+			boolean valid = false;
+			while(!valid){
+				System.out.println("Please enter file path:");	
+				String filePath = scnr.nextLine();
+				try {
+					town = new Town(filePath);
+					valid = true;
+				}
+				catch (FileNotFoundException e) {
+					System.out.println("File not found. Try again.");
+				}
+			}
+		}
+		else {
+			boolean valid = false;
+			int length=0, width=0, seed=0;
+			while(!valid){
+				System.out.println("Provide rows, cols and seed integer separated by spaces: ");
+				String[] userNumArray = scnr.nextLine().split(" ");
+				if (userNumArray.length != 3) {
+					System.out.println("Please enter exactly 3 integers");
+					continue;
+				}
+				try {
+					length = Integer.parseInt(userNumArray[0]);
+					width = Integer.parseInt(userNumArray[1]);
+					seed = Integer.parseInt(userNumArray[2]);
+					valid = true;
+				}
+				catch (NumberFormatException e) {
+					System.out.println("Please enter valid integers");
+				}
+			}
+			town = new Town(length, width);
+			town.randomInit(seed);
+		}
+		scnr.close();
+		double tProfit = 0;
+		for(int i = 0; i < 12; i++) {
+			tProfit += getProfit(town);
+			town = updatePlain(town);
+		}
+		double pProfit = town.getLength() * town.getWidth() * 12;
+		double profitUtilization = 100.0 * tProfit / pProfit;
+		System.out.printf("%.2f", profitUtilization);
+		System.out.println("%");
+		
 	}
 }

@@ -22,6 +22,8 @@ public class Town {
 	 * @param width
 	 */
 	public Town(int length, int width) {
+		this.length = length;
+		this.width = width;
 		grid = new TownCell[length][width];
 	}
 	

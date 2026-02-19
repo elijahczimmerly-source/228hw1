@@ -52,6 +52,9 @@ public abstract class TownCell {
 				if (i == row && j == col) {
 					continue;
 				}
+				if (i < 0 || i >= plain.getLength() || j < 0 || j >= plain.getWidth()) {
+					continue;
+				}
 				nCensus[plain.grid[i][j].who().ordinal()]++;
 			}
 		}
