@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 /**
- *  @author <<Write your name here>>
+ *  @author <<Elijah Zimmerly>>
  *
  */
 public class Town {
@@ -22,7 +22,7 @@ public class Town {
 	 * @param width
 	 */
 	public Town(int length, int width) {
-		//TODO: Write your code here.
+		grid = new TownCell[length][width];
 	}
 	
 	/**
@@ -33,7 +33,26 @@ public class Town {
 	 * @throws FileNotFoundException
 	 */
 	public Town(String inputFileName) throws FileNotFoundException {
-		//TODO: Write your code here.
+		File file = new File(inputFileName);
+		Scanner scnr = new Scanner(file);
+		length = scnr.nextInt();
+		width = scnr.nextInt();
+		grid = new TownCell[length][width];
+		
+		for (int r = 0; r < length; r++) {
+			for (int c = 0; c < width; c++) {
+				String stateStr = scnr.next();
+				grid[r][c] = switch(stateStr) {
+					case "R" -> new Reseller(this, r,c);
+					case "E" -> new Empty(this, r,c);
+					case "C" -> new Casual(this, r,c);
+					case "O" -> new Outage(this, r,c);
+					case "S" -> new Streamer(this, r,c);
+					default -> throw new IllegalArgumentException("Unexpected cell type: " + stateStr);
+				};
+			}
+		}
+		scnr.close();
 	}
 	
 	/**
@@ -41,8 +60,7 @@ public class Town {
 	 * @return
 	 */
 	public int getWidth() {
-		//TODO: Write/update your code here.
-		return 0;
+		return width;
 	}
 	
 	/**
@@ -50,8 +68,7 @@ public class Town {
 	 * @return
 	 */
 	public int getLength() {
-		//TODO: Write/update your code here.
-		return 0;
+		return length;
 	}
 
 	/**
@@ -60,7 +77,20 @@ public class Town {
 	 */
 	public void randomInit(int seed) {
 		Random rand = new Random(seed);
-		//TODO: Write your code here.
+		
+		for (int r = 0; r < length; r++) {
+			for (int c = 0; c < width; c++) {
+				int randInt = rand.nextInt(5);
+				grid[r][c] = switch (randInt) {
+					case TownCell.RESELLER -> new Reseller(this, r,c);
+					case TownCell.EMPTY -> new Empty(this, r,c);
+					case TownCell.CASUAL -> new Casual(this, r,c);
+					case TownCell.OUTAGE -> new Outage(this, r,c);
+					case TownCell.STREAMER -> new Streamer(this, r,c);
+					default -> throw new IllegalArgumentException("Unexpected cell type: " + randInt);
+				};
+			}
+		}
 	}
 	
 	/**
@@ -72,7 +102,14 @@ public class Town {
 	@Override
 	public String toString() {
 		String s = "";
-		//TODO: Write your code here.
+		for (int r = 0; r < length; r++)
+		{
+			for (int c = 0; c < width; c++) {
+				if (c > 0) s += " ";
+				s += grid[r][c].who().name().charAt(0);
+			}
+			s += "\n";
+		}
 		return s;
 	}
 }
