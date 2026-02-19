@@ -18,7 +18,11 @@ public class ISPBusiness {
 	 */
 	public static Town updatePlain(Town tOld) {
 		Town tNew = new Town(tOld.getLength(), tOld.getWidth());
-		//TODO: Write your code here.
+		for (int r = 0; r < tOld.getLength(); r++) {
+			for (int c = 0; c < tOld.getWidth(); c++) {
+				tNew.grid[r][c] = tOld.grid[r][c].next(tNew);
+			}
+		}
 		return tNew;
 	}
 	
@@ -28,8 +32,15 @@ public class ISPBusiness {
 	 * @return
 	 */
 	public static int getProfit(Town town) {
-		//TODO: Write/update your code here.
-		return 0;
+		int profit = 0;
+		for (TownCell[] row : town.grid) {
+			for(TownCell townCell : row) {
+				if(townCell.who() == State.CASUAL) {
+					profit++;
+				}
+			}
+		}
+		return profit;
 	}
 	
 
