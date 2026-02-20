@@ -1,5 +1,8 @@
 package edu.iastate.cs2280.hw1;
 
+/**
+ * @author Elijah Zimmerly
+ */
 public class Empty extends TownCell {
 
 	public Empty(Town p, int r, int c) {

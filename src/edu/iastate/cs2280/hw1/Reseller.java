@@ -1,5 +1,8 @@
 package edu.iastate.cs2280.hw1;
 
+/**
+ * @author Elijah Zimmerly
+ */
 public class Reseller extends TownCell {
 
 	public Reseller(Town p, int r, int c) {
